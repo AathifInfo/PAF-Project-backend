@@ -36,7 +36,7 @@ public class WorkoutStatusController {
      * @return success or fail response of get workout status by id
      */
     @GetMapping("/{workoutStatusId}")
-    public ResponseEntity<CommonResponse> getWorkoutStatusDetailsById(@PathVariable("workoutStatusId") @NotNull Long workoutStatusId) {
+    public ResponseEntity<CommonResponse> getWorkoutStatusDetailsById(@PathVariable("workoutStatusId") @NotNull String workoutStatusId) {
         CommonResponse commonResponse = workoutStatusService.getWorkoutStatusDetailsById(workoutStatusId);
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
@@ -72,8 +72,19 @@ public class WorkoutStatusController {
      * @return success or fail response of delete workout status by id
      */
     @DeleteMapping("/{workoutStatusId}")
-    public ResponseEntity<CommonResponse> deleteWorkoutStatusDetailsById(@PathVariable("workoutStatusId") @NotNull Long workoutStatusId) {
+    public ResponseEntity<CommonResponse> deleteWorkoutStatusDetailsById(@PathVariable("workoutStatusId") @NotNull String workoutStatusId) {
         CommonResponse commonResponse = workoutStatusService.deleteWorkoutStatusDetailsById(workoutStatusId);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Delete all workout status
+     *
+     * @return success or fail response of delete all workout status
+     */
+    @DeleteMapping("")
+    public ResponseEntity<CommonResponse> deleteALlWorkoutStatusDetails() {
+        CommonResponse commonResponse = workoutStatusService.deleteALlWorkoutStatusDetails();
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
 }

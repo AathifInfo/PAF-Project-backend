@@ -43,7 +43,7 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
     }
 
     @Override
-    public CommonResponse getWorkoutStatusDetailsById(Long workoutStatusId) {
+    public CommonResponse getWorkoutStatusDetailsById(String workoutStatusId) {
         log.info("WorkoutStatusServiceImpl.getWorkoutStatusDetailsById method accessed");
         WorkoutStatusDTO workoutStatusDTO;
         CommonResponse commonResponse = new CommonResponse();
@@ -105,7 +105,7 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
     }
 
     @Override
-    public CommonResponse deleteWorkoutStatusDetailsById(Long workoutStatusId) {
+    public CommonResponse deleteWorkoutStatusDetailsById(String workoutStatusId) {
         log.info("WorkoutStatusServiceImpl.deleteWorkoutStatusDetailsById method accessed");
         CommonResponse commonResponse = new CommonResponse();
         Optional<WorkoutStatus> workoutStatus = workoutStatusRepository.findById(workoutStatusId);
@@ -121,6 +121,26 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
         commonResponse.setMessage("WorkoutStatus details is delete success!");
         commonResponse.setData(new ArrayList<>());
         log.info("WorkoutStatusServiceImpl.deleteWorkoutStatusDetailsById method end");
+        return commonResponse;
+    }
+
+    @Override
+    public CommonResponse deleteALlWorkoutStatusDetails() {
+        log.info("WorkoutStatusServiceImpl.deleteALlWorkoutStatusDetails method accessed");
+        CommonResponse commonResponse = new CommonResponse();
+        List<WorkoutStatus> workoutStatus = workoutStatusRepository.findAll();
+        if(workoutStatus.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.BAD_REQUEST);
+            commonResponse.setMessage("Delete all workoutStatus details not available!");
+            commonResponse.setData(new ArrayList<>());
+            log.warn("WorkoutStatus all details not available. message : {}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        workoutStatusRepository.deleteAll();
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("WorkoutStatus all details is delete success!");
+        commonResponse.setData(new ArrayList<>());
+        log.info("WorkoutStatusServiceImpl.deleteALlWorkoutStatusDetails method end");
         return commonResponse;
     }
 }

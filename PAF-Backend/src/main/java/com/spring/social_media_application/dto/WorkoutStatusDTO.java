@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WorkoutStatusDTO {
-    private Long id;
+    private String id;
     private String distance;
     private Integer pushUp;
     private Double weightLifted;

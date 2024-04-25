@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document
 public class WorkoutStatus {
     @Id
-    private Long id;
+    private String id;
     @Field
     private String distance;
     @Field

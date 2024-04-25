@@ -17,7 +17,7 @@ public interface WorkoutStatusService {
      * @param workoutStatusId - required data for get workout status by id
      * @return success or fail response of get workout status by id
      */
-    CommonResponse getWorkoutStatusDetailsById(Long workoutStatusId);
+    CommonResponse getWorkoutStatusDetailsById(String workoutStatusId);
 
     /**
      * Create workout status
@@ -41,5 +41,12 @@ public interface WorkoutStatusService {
      * @param workoutStatusId - required data for delete workout status by id
      * @return success or fail response of delete workout status by id
      */
-    CommonResponse deleteWorkoutStatusDetailsById(Long workoutStatusId);
+    CommonResponse deleteWorkoutStatusDetailsById(String workoutStatusId);
+
+    /**
+     * Delete all workout status
+     *
+     * @return success or fail response of delete all workout status
+     */
+    CommonResponse deleteALlWorkoutStatusDetails();
 }

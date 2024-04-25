@@ -11,7 +11,6 @@ public class WorkoutStatusMapper {
         if (dto == null) {
             throw new ReferenceNotFoundException("The WorkoutStatusDTO should not be null");
         }
-        domain.setId(dto.getId());
         domain.setDistance(dto.getDistance());
         domain.setPushUp(dto.getPushUp());
         domain.setWeightLifted(dto.getWeightLifted());
