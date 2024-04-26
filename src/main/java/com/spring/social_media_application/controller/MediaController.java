@@ -1,6 +1,6 @@
 package com.spring.social_media_application.controller;
 
-import com.spring.social_media_application.comman.CommonResponse;
+import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.MediaDTO;
 import com.spring.social_media_application.service.MediaService;
 import lombok.AllArgsConstructor;

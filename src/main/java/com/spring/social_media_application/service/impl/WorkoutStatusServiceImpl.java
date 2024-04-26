@@ -1,6 +1,6 @@
 package com.spring.social_media_application.service.impl;
 
-import com.spring.social_media_application.comman.CommonResponse;
+import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.WorkoutStatusDTO;
 import com.spring.social_media_application.entity.WorkoutStatus;
 import com.spring.social_media_application.mapper.WorkoutStatusMapper;

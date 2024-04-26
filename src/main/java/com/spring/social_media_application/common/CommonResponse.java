@@ -1,4 +1,4 @@
-package com.spring.social_media_application.comman;
+package com.spring.social_media_application.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

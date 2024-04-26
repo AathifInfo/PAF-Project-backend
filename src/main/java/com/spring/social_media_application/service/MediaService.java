@@ -1,6 +1,6 @@
 package com.spring.social_media_application.service;
 
-import com.spring.social_media_application.comman.CommonResponse;
+import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.MediaDTO;
 
 import java.io.IOException;
