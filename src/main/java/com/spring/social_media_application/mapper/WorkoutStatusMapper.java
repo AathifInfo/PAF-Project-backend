@@ -14,6 +14,7 @@ public class WorkoutStatusMapper {
         domain.setDistance(dto.getDistance());
         domain.setPushUp(dto.getPushUp());
         domain.setWeightLifted(dto.getWeightLifted());
+        domain.setDescription(dto.getDescription());
         return domain;
     }
 
@@ -26,6 +27,7 @@ public class WorkoutStatusMapper {
         dto.setDistance(domain.getDistance());
         dto.setPushUp(domain.getPushUp());
         dto.setWeightLifted(domain.getWeightLifted());
+        dto.setDescription(domain.getDescription());
         return dto;
     }
 }

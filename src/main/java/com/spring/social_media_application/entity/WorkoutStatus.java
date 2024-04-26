@@ -22,4 +22,6 @@ public class WorkoutStatus {
     private Integer pushUp;
     @Field
     private Double weightLifted;
+    @Field
+    private String description;
 }

@@ -14,4 +14,5 @@ public class WorkoutStatusDTO {
     private String distance;
     private Integer pushUp;
     private Double weightLifted;
+    private String description;
 }
