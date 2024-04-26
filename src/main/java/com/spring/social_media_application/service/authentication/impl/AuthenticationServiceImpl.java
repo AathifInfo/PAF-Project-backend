@@ -82,7 +82,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Student role is not available."));
+                    .orElseThrow(() -> new RuntimeException("Error: User role is not available."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
