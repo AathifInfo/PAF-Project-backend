@@ -1,7 +1,7 @@
 package com.spring.social_media_application.service.impl;
 
 import com.spring.social_media_application.common.CommonResponse;
-import com.spring.social_media_application.dto.WorkoutStatusDTO;
+import com.spring.social_media_application.dto.WorkoutStatusRequestDTO;
 import com.spring.social_media_application.entity.WorkoutStatus;
 import com.spring.social_media_application.mapper.WorkoutStatusMapper;
 import com.spring.social_media_application.repository.WorkoutStatusRepository;
@@ -25,9 +25,9 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
     public CommonResponse getAllWorkoutStatusDetails() {
         log.info("WorkoutStatusServiceImpl.getAllWorkoutStatusDetails method accessed");
         CommonResponse commonResponse = new CommonResponse();
-        List<WorkoutStatusDTO> workoutStatusDTOList = new ArrayList<>();
+        List<WorkoutStatusRequestDTO> workoutStatusRequestDTOList = new ArrayList<>();
         List<WorkoutStatus> workoutStatusList = workoutStatusRepository.findAll();
-        workoutStatusList.forEach(notification ->  workoutStatusDTOList.add(workoutStatusMapper.domainToDto(notification)));
+        workoutStatusList.forEach(notification ->  workoutStatusRequestDTOList.add(workoutStatusMapper.domainToDto(notification)));
         if (workoutStatusList.isEmpty()) {
             commonResponse.setStatus(HttpStatus.OK);
             commonResponse.setData(new ArrayList<WorkoutStatus>());
@@ -37,7 +37,7 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
         }
         commonResponse.setStatus(HttpStatus.OK);
         commonResponse.setMessage("WorkoutStatus details are fetching success!");
-        commonResponse.setData(workoutStatusDTOList);
+        commonResponse.setData(workoutStatusRequestDTOList);
         log.info("WorkoutStatusServiceImpl.getAllWorkoutStatusDetails method end");
         return commonResponse;
     }
@@ -45,11 +45,11 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
     @Override
     public CommonResponse getWorkoutStatusDetailsById(String workoutStatusId) {
         log.info("WorkoutStatusServiceImpl.getWorkoutStatusDetailsById method accessed");
-        WorkoutStatusDTO workoutStatusDTO;
+        WorkoutStatusRequestDTO workoutStatusRequestDTO;
         CommonResponse commonResponse = new CommonResponse();
         Optional<WorkoutStatus> workoutStatus = workoutStatusRepository.findById(workoutStatusId);
         if(workoutStatus.isPresent()) {
-            workoutStatusDTO = workoutStatusMapper.domainToDto(workoutStatus.get());
+            workoutStatusRequestDTO = workoutStatusMapper.domainToDto(workoutStatus.get());
         } else {
             commonResponse.setStatus(HttpStatus.OK);
             commonResponse.setData(new ArrayList<>());
@@ -59,16 +59,16 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
         }
         commonResponse.setStatus(HttpStatus.OK);
         commonResponse.setMessage("WorkoutStatus details is fetching success!");
-        commonResponse.setData(workoutStatusDTO);
+        commonResponse.setData(workoutStatusRequestDTO);
         log.info("WorkoutStatusServiceImpl.getWorkoutStatusDetailsById method end");
         return commonResponse;
     }
 
     @Override
-    public CommonResponse saveWorkoutStatus(WorkoutStatusDTO workoutStatusDTO) {
+    public CommonResponse saveWorkoutStatus(WorkoutStatusRequestDTO workoutStatusRequestDTO) {
         log.info("WorkoutStatusServiceImpl.saveWorkoutStatus method accessed");
         CommonResponse commonResponse = new CommonResponse();
-        Optional<WorkoutStatus> workoutStatus = workoutStatusRepository.findById(workoutStatusDTO.getId());
+        Optional<WorkoutStatus> workoutStatus = workoutStatusRepository.findById(workoutStatusRequestDTO.getId());
         if(workoutStatus.isPresent()){
             commonResponse.setStatus(HttpStatus.BAD_REQUEST);
             commonResponse.setMessage("WorkoutStatus details already exist!");
@@ -76,7 +76,7 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
             log.warn("Workout Status details not exist. message : {}", commonResponse.getMessage());
             return commonResponse;
         }
-        WorkoutStatus workoutStatusSavedDetails = workoutStatusRepository.save(workoutStatusMapper.dtoToDomain(workoutStatusDTO, new WorkoutStatus()));
+        WorkoutStatus workoutStatusSavedDetails = workoutStatusRepository.save(workoutStatusMapper.dtoToDomain(workoutStatusRequestDTO, new WorkoutStatus()));
         commonResponse.setStatus(HttpStatus.CREATED);
         commonResponse.setMessage("WorkoutStatus details saved success!");
         commonResponse.setData(workoutStatusMapper.domainToDto(workoutStatusSavedDetails));
@@ -85,10 +85,10 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
     }
 
     @Override
-    public CommonResponse updateWorkoutStatus(WorkoutStatusDTO workoutStatusDTO) {
+    public CommonResponse updateWorkoutStatus(WorkoutStatusRequestDTO workoutStatusRequestDTO) {
         log.info("WorkoutStatusServiceImpl.updateWorkoutStatus method accessed");
         CommonResponse commonResponse = new CommonResponse();
-        Optional<WorkoutStatus> workoutStatus = workoutStatusRepository.findById(workoutStatusDTO.getId());
+        Optional<WorkoutStatus> workoutStatus = workoutStatusRepository.findById(workoutStatusRequestDTO.getId());
         if(workoutStatus.isEmpty()) {
             commonResponse.setStatus(HttpStatus.BAD_REQUEST);
             commonResponse.setMessage("WorkoutStatus details not available!");
@@ -96,7 +96,7 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
             log.warn("Workout status  details not available. message : {}", commonResponse.getMessage());
             return commonResponse;
         }
-        WorkoutStatus workoutStatusUpdatedDetails = workoutStatusRepository.save(workoutStatusMapper.dtoToDomain(workoutStatusDTO, workoutStatus.get()));
+        WorkoutStatus workoutStatusUpdatedDetails = workoutStatusRepository.save(workoutStatusMapper.dtoToDomain(workoutStatusRequestDTO, workoutStatus.get()));
         commonResponse.setStatus(HttpStatus.OK);
         commonResponse.setMessage("WorkoutStatus details is update success!");
         commonResponse.setData(workoutStatusMapper.domainToDto(workoutStatusUpdatedDetails));

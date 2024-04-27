@@ -5,14 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkoutStatusDTO {
-    private String id;
-    private String distance;
-    private Integer pushUp;
-    private Double weightLifted;
-    private String description;
+public class WorkoutPlanDTO {
+    private List<String> routines;
+    private List<String> exercises;
+    private List<String> sets;
+    private List<String> repetitions;
 }

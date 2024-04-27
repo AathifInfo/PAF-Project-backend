@@ -1,7 +1,7 @@
 package com.spring.social_media_application.controller;
 
 import com.spring.social_media_application.common.CommonResponse;
-import com.spring.social_media_application.dto.WorkoutStatusDTO;
+import com.spring.social_media_application.dto.WorkoutStatusRequestDTO;
 import com.spring.social_media_application.service.WorkoutStatusService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -44,24 +44,24 @@ public class WorkoutStatusController {
     /**
      * Create workout status
      *
-     * @param workoutStatusDTO - required data for workout status save
+     * @param workoutStatusRequestDTO - required data for workout status save
      * @return success or fail response of workout status save
      */
     @PostMapping("")
-    public ResponseEntity<CommonResponse> saveWorkoutStatus(@Valid @RequestBody WorkoutStatusDTO workoutStatusDTO) {
-        CommonResponse commonResponse = workoutStatusService.saveWorkoutStatus(workoutStatusDTO);
+    public ResponseEntity<CommonResponse> saveWorkoutStatus(@Valid @RequestBody WorkoutStatusRequestDTO workoutStatusRequestDTO) {
+        CommonResponse commonResponse = workoutStatusService.saveWorkoutStatus(workoutStatusRequestDTO);
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
 
     /**
      * Update workout status
      *
-     * @param workoutStatusDTO - required data for workout status update
+     * @param workoutStatusRequestDTO - required data for workout status update
      * @return success or fail response of workout status update
      */
     @PutMapping("")
-    public ResponseEntity<CommonResponse> updateWorkoutStatus(@Valid @RequestBody WorkoutStatusDTO workoutStatusDTO) {
-        CommonResponse commonResponse = workoutStatusService.updateWorkoutStatus(workoutStatusDTO);
+    public ResponseEntity<CommonResponse> updateWorkoutStatus(@Valid @RequestBody WorkoutStatusRequestDTO workoutStatusRequestDTO) {
+        CommonResponse commonResponse = workoutStatusService.updateWorkoutStatus(workoutStatusRequestDTO);
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
 

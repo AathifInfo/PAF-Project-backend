@@ -1,7 +1,7 @@
 package com.spring.social_media_application.service;
 
 import com.spring.social_media_application.common.CommonResponse;
-import com.spring.social_media_application.dto.WorkoutStatusDTO;
+import com.spring.social_media_application.dto.WorkoutStatusRequestDTO;
 
 public interface WorkoutStatusService {
     /**
@@ -22,18 +22,18 @@ public interface WorkoutStatusService {
     /**
      * Create workout status
      *
-     * @param workoutStatusDTO - required data for workout status save
+     * @param workoutStatusRequestDTO - required data for workout status save
      * @return success or fail response of workout status save
      */
-    CommonResponse saveWorkoutStatus(WorkoutStatusDTO workoutStatusDTO);
+    CommonResponse saveWorkoutStatus(WorkoutStatusRequestDTO workoutStatusRequestDTO);
 
     /**
      * Update workout status
      *
-     * @param workoutStatusDTO - required data for workout status update
+     * @param workoutStatusRequestDTO - required data for workout status update
      * @return success or fail response of workout status update
      */
-    CommonResponse updateWorkoutStatus(WorkoutStatusDTO workoutStatusDTO);
+    CommonResponse updateWorkoutStatus(WorkoutStatusRequestDTO workoutStatusRequestDTO);
 
     /**
      * Delete workout status by id
