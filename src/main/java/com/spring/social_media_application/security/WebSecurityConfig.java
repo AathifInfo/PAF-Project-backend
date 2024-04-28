@@ -81,6 +81,7 @@ public class WebSecurityConfig {
                   .requestMatchers("/api/test/**").permitAll()
                   .requestMatchers("/api/media/**").permitAll()
                   .requestMatchers("/api/workout/**").permitAll()
+                  .requestMatchers("/api/meal/**").permitAll()
                   .anyRequest().authenticated());
 
       http.authenticationProvider(authenticationProvider());
