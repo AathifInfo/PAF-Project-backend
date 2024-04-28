@@ -23,6 +23,49 @@ public class MealPlanServiceImpl implements MealPlanService {
     private final MealPlanMapper mealPlanMapper;
 
     @Override
+    public CommonResponse getAllMealPlanDetails() {
+        log.info("MealPlanServiceImpl.getAllMealPlanDetails method accessed");
+        CommonResponse commonResponse = new CommonResponse();
+        List<MealPlanDTO> mealPlanDTOList = new ArrayList<>();
+        List<MealPlan> mealPlans = mealPlanRepository.findAll();
+        mealPlans.forEach(workoutPlan ->  mealPlanDTOList.add(mealPlanMapper.domainToDto(workoutPlan)));
+        if (mealPlans.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setData(new ArrayList<MealPlan>());
+            commonResponse.setMessage("MealPlan details list not available!");
+            log.warn("MealPlan details not available. message :{}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("MealPlan details are fetching success!");
+        commonResponse.setData(mealPlanDTOList);
+        log.info("MealPlanServiceImpl.getAllMealPlanDetails method end");
+        return commonResponse;
+    }
+
+    @Override
+    public CommonResponse getMealPlanDetailsById(String mealPlanId) {
+        log.info("MealPlanServiceImpl.getMealPlanDetailsById method accessed");
+        MealPlanDTO mealPlanDTO;
+        CommonResponse commonResponse = new CommonResponse();
+        Optional<MealPlan> mealPlan = mealPlanRepository.findById(mealPlanId);
+        if(mealPlan.isPresent()) {
+            mealPlanDTO = mealPlanMapper.domainToDto(mealPlan.get());
+        } else {
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setData(new ArrayList<>());
+            commonResponse.setMessage("MealPlan details is not available!");
+            log.warn("MealPlan details not available. message : {} ", commonResponse.getMessage());
+            return commonResponse;
+        }
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("MealPlan details is fetching success!");
+        commonResponse.setData(mealPlanDTO);
+        log.info("MealPlanServiceImpl.getMealPlanDetailsById method end");
+        return commonResponse;
+    }
+
+    @Override
     public CommonResponse saveMealPlan(MealPlanDTO mealPlanDTO) {
         log.info("MealPlanServiceImpl.saveMealPlan method accessed");
         CommonResponse commonResponse = new CommonResponse();

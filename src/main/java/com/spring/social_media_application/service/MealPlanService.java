@@ -4,6 +4,22 @@ import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.MealPlanDTO;
 
 public interface MealPlanService {
+
+    /**
+     * Get all meal plans
+     *
+     * @return success or fail response of eal plans fetching
+     */
+    CommonResponse getAllMealPlanDetails();
+
+    /**
+     * Get meal plan
+     *
+     * @param mealPlanId - required data for get meal plan
+     * @return success or fail response of get meal plan
+     */
+    CommonResponse getMealPlanDetailsById(String mealPlanId);
+
     /**
      * Delete meal plan
      *

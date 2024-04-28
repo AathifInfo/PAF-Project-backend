@@ -19,6 +19,29 @@ public class MealPlanController {
     private final MealPlanService mealPlanService;
 
     /**
+     * Get all meal plans
+     *
+     * @return success or fail response of eal plans fetching
+     */
+    @GetMapping("")
+    public ResponseEntity<CommonResponse> getAllMealPlanDetails() {
+        CommonResponse commonResponse = mealPlanService.getAllMealPlanDetails();
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Get meal plan
+     *
+     * @param mealPlanId - required data for get meal plan
+     * @return success or fail response of get meal plan
+     */
+    @GetMapping("/{mealPlanId}")
+    public ResponseEntity<CommonResponse> getMealPlanDetailsById(@PathVariable("mealPlanId") @NotNull String mealPlanId) {
+        CommonResponse commonResponse = mealPlanService.getMealPlanDetailsById(mealPlanId);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
      * save meal plan
      *
      * @param mealPlanDTO - required data for meal plan save
