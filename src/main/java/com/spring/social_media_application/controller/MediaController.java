@@ -72,7 +72,7 @@ public class MediaController {
      * @param id - required data for get image
      * @return success or fail response of get image
      */
-    @GetMapping(value = "/download/image/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/download/image/{planId}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> downloadImage(@PathVariable String id) {
         Optional<byte[]> imageData = mediaService.getImageData(id);
         return imageData.map(bytes -> ResponseEntity.ok().body(bytes)).orElseGet(() -> ResponseEntity.notFound().build());
@@ -84,7 +84,7 @@ public class MediaController {
      * @param id - required data for get video
      * @return success or fail response of get video
      */
-    @GetMapping(value = "/download/video/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/download/video/{planId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<byte[]> downloadVideo(@PathVariable String id) {
         Optional<byte[]> videoData = mediaService.getVideoData(id);
         return videoData.map(bytes -> ResponseEntity.ok().body(bytes)).orElseGet(() -> ResponseEntity.notFound().build());
@@ -96,7 +96,7 @@ public class MediaController {
      * @param id - required data for delete image
      * @return success or fail response of delete image
      */
-    @DeleteMapping("/delete/media/{id}")
+    @DeleteMapping("/delete/media/{planId}")
     public ResponseEntity<CommonResponse> deleteImage(@PathVariable String id) {
         CommonResponse commonResponse = mediaService.deleteMediaById(id);
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);

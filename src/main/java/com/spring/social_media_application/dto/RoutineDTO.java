@@ -4,18 +4,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class WorkoutPlanDTO {
-    private String planId;
+public class RoutineDTO {
+    private String routineId;
     private String userId;
     private String name;
-    private String description;
-    private List<RoutineDTO> routineDTOS;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private List<ExerciseDTO> exerciseDTOS;
 }

@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/workout")
+@RequestMapping("/api/workout/status")
 @Slf4j
 @AllArgsConstructor
 public class WorkoutStatusController {
@@ -30,10 +30,10 @@ public class WorkoutStatusController {
     }
 
     /**
-     * Get workout status by id
+     * Get workout status by planId
      *
-     * @param workoutStatusId - required data for get workout status by id
-     * @return success or fail response of get workout status by id
+     * @param workoutStatusId - required data for get workout status by planId
+     * @return success or fail response of get workout status by planId
      */
     @GetMapping("/{workoutStatusId}")
     public ResponseEntity<CommonResponse> getWorkoutStatusDetailsById(@PathVariable("workoutStatusId") @NotNull String workoutStatusId) {
@@ -66,10 +66,10 @@ public class WorkoutStatusController {
     }
 
     /**
-     * Delete workout status by id
+     * Delete workout status by planId
      *
-     * @param workoutStatusId - required data for delete workout status by id
-     * @return success or fail response of delete workout status by id
+     * @param workoutStatusId - required data for delete workout status by planId
+     * @return success or fail response of delete workout status by planId
      */
     @DeleteMapping("/{workoutStatusId}")
     public ResponseEntity<CommonResponse> deleteWorkoutStatusDetailsById(@PathVariable("workoutStatusId") @NotNull String workoutStatusId) {
