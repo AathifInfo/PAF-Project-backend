@@ -21,6 +21,50 @@ import java.util.Optional;
 public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     private final WorkoutPlanRepository workoutPlanRepository;
     private final WorkoutPlanMapper workoutPlanMapper;
+
+    @Override
+    public CommonResponse getAllWorkoutPlansDetails() {
+        log.info("WorkoutPlanServiceImpl.getAllWorkoutPlansDetails method accessed");
+        CommonResponse commonResponse = new CommonResponse();
+        List<WorkoutPlanDTO> workoutPlanDTOList = new ArrayList<>();
+        List<WorkoutPlan> workoutPlans = workoutPlanRepository.findAll();
+        workoutPlans.forEach(workoutPlan ->  workoutPlanDTOList.add(workoutPlanMapper.domainToDto(workoutPlan)));
+        if (workoutPlans.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setData(new ArrayList<WorkoutPlan>());
+            commonResponse.setMessage("WorkoutPlan details list not available!");
+            log.warn("WorkoutPlan details not available. message :{}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("WorkoutPlan details are fetching success!");
+        commonResponse.setData(workoutPlanDTOList);
+        log.info("WorkoutPlanServiceImpl.getAllWorkoutPlansDetails method end");
+        return commonResponse;
+    }
+
+    @Override
+    public CommonResponse getWorkoutPlanDetailsById(String workoutPlanId) {
+        log.info("WorkoutPlanServiceImpl.getWorkoutPlanDetailsById method accessed");
+        WorkoutPlanDTO workoutPlanDTO;
+        CommonResponse commonResponse = new CommonResponse();
+        Optional<WorkoutPlan> workoutPlan = workoutPlanRepository.findById(workoutPlanId);
+        if(workoutPlan.isPresent()) {
+            workoutPlanDTO = workoutPlanMapper.domainToDto(workoutPlan.get());
+        } else {
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setData(new ArrayList<>());
+            commonResponse.setMessage("WorkoutPlan details is not available!");
+            log.warn("WorkoutPlan details not available. message : {} ", commonResponse.getMessage());
+            return commonResponse;
+        }
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("WorkoutPlan details is fetching success!");
+        commonResponse.setData(workoutPlanDTO);
+        log.info("WorkoutPlanServiceImpl.getWorkoutPlanDetailsById method end");
+        return commonResponse;
+    }
+
     @Override
     public CommonResponse saveWorkoutPlan(WorkoutPlanDTO workoutPlanDTO) {
         log.info("WorkoutPlanServiceImpl.saveWorkoutPlan method accessed");

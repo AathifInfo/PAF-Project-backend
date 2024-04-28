@@ -19,6 +19,29 @@ public class WorkoutPlanController {
     private final WorkoutPlanService workoutPlanService;
 
     /**
+     * Get all workout plans
+     *
+     * @return success or fail response of workout plans fetching
+     */
+    @GetMapping("")
+    public ResponseEntity<CommonResponse> getAllWorkoutStatusDetails() {
+        CommonResponse commonResponse = workoutPlanService.getAllWorkoutPlansDetails();
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Get workout plan
+     *
+     * @param workoutPlanId - required data for get workout plan
+     * @return success or fail response of get workout plan
+     */
+    @GetMapping("/{workoutPlanId}")
+    public ResponseEntity<CommonResponse> getWorkoutPlanDetailsById(@PathVariable("workoutPlanId") @NotNull String workoutPlanId) {
+        CommonResponse commonResponse = workoutPlanService.getWorkoutPlanDetailsById(workoutPlanId);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
      * save workout plan
      *
      * @param workoutPlanDTO - required data for workout plan save

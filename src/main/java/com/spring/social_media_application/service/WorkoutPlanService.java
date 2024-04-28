@@ -5,6 +5,20 @@ import com.spring.social_media_application.dto.WorkoutPlanDTO;
 
 public interface WorkoutPlanService {
     /**
+     * Get all workout plans
+     *
+     * @return success or fail response of workout plans fetching
+     */
+    CommonResponse getAllWorkoutPlansDetails();
+
+    /**
+     * Get workout plan
+     *
+     * @param workoutPlanId - required data for get workout plan
+     * @return success or fail response of get workout plan
+     */
+    CommonResponse getWorkoutPlanDetailsById(String workoutPlanId);
+    /**
      * save workout plan
      *
      * @param workoutPlanDTO - required data for workout plan save
@@ -26,4 +40,5 @@ public interface WorkoutPlanService {
      * @return success or fail response of delete workout plan
      */
     CommonResponse deleteWorkoutPlanById(String workoutPlanId);
+
 }
