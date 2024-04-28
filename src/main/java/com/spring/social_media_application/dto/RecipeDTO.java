@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecipeDTO {
     private String recipeId;
+    private String userId;
     private String name;
     private List<Ingredient> ingredients;
     private String instructions;

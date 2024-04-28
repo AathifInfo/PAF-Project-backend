@@ -18,4 +18,12 @@ public interface WorkoutPlanService {
      * @return success or fail response of delete workout plans
      */
     CommonResponse deleteWorkoutPlans();
+
+    /**
+     * Delete workout plan
+     *
+     * @param workoutPlanId - required data for delete workout plan
+     * @return success or fail response of delete workout plan
+     */
+    CommonResponse deleteWorkoutPlanById(String workoutPlanId);
 }

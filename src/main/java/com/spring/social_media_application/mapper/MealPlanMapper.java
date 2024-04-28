@@ -33,6 +33,7 @@ public class MealPlanMapper {
         domain.setLastUpdatedDate(dto.getLastUpdatedDate());
         List<Recipe> recipeList = new ArrayList<>();
         dto.getRecipes().forEach(recipeDTO -> recipeList.add(recipeMapper.dtoToDomain(recipeDTO, new Recipe())));
+        recipeList.forEach(recipe -> recipe.setUserId(user.getUserId()));
         List<Recipe> savedRecipeList = recipeRepository.saveAll(recipeList);
         domain.setRecipes(savedRecipeList);
         return domain;

@@ -4,6 +4,7 @@ import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.WorkoutPlanDTO;
 import com.spring.social_media_application.service.WorkoutPlanService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,19 @@ public class WorkoutPlanController {
         CommonResponse commonResponse = workoutPlanService.saveWorkoutPlan(workoutPlanDTO);
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
+
+    /**
+     * Delete workout plan
+     *
+     * @param workoutPlanId - required data for delete workout plan
+     * @return success or fail response of delete workout plan
+     */
+    @DeleteMapping("/{workoutPlanId}")
+    public ResponseEntity<CommonResponse> deleteWorkoutPlanById(@PathVariable("workoutPlanId") @NotNull String workoutPlanId) {
+        CommonResponse commonResponse = workoutPlanService.deleteWorkoutPlanById(workoutPlanId);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
 
     /**
      * Delete workout plans

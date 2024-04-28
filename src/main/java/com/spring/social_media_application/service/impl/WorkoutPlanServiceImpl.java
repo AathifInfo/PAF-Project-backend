@@ -43,6 +43,26 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     }
 
     @Override
+    public CommonResponse deleteWorkoutPlanById(String workoutPlanId) {
+        log.info("WorkoutPlanServiceImpl.deleteWorkoutPlanById method accessed");
+        CommonResponse commonResponse = new CommonResponse();
+        Optional<WorkoutPlan> workoutPlan = workoutPlanRepository.findById(workoutPlanId);
+        if(workoutPlan.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.BAD_REQUEST);
+            commonResponse.setMessage("Delete workoutPlan details not available!");
+            commonResponse.setData(new ArrayList<>());
+            log.warn("WorkoutPlan  details not available. message : {}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        workoutPlanRepository.deleteById(workoutPlanId);
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("WorkoutPlan details is delete success!");
+        commonResponse.setData(new ArrayList<>());
+        log.info("WorkoutPlanServiceImpl.deleteWorkoutPlanById method end");
+        return commonResponse;
+    }
+
+    @Override
     public CommonResponse deleteWorkoutPlans() {
         log.info("WorkoutPlanServiceImpl.deleteWorkoutPlans method accessed");
         CommonResponse commonResponse = new CommonResponse();
@@ -61,4 +81,5 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
         log.info("WorkoutPlanServiceImpl.deleteWorkoutPlans method end");
         return commonResponse;
     }
+
 }

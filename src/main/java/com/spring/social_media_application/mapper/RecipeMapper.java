@@ -33,6 +33,7 @@ public class RecipeMapper {
         }
         RecipeDTO dto = new RecipeDTO();
         dto.setRecipeId(domain.getRecipeId());
+        dto.setUserId(domain.getUserId());
         dto.setName(domain.getName());
         dto.setIngredients(domain.getIngredients());
         dto.setInstructions(domain.getInstructions());
