@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/workout/status")
 @Slf4j
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class WorkoutStatusController {
     private final WorkoutStatusService workoutStatusService;
 

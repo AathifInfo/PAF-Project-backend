@@ -29,6 +29,7 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public CommonResponse uploadImage(MediaDTO mediaDTO) throws IOException {
+        log.info("MediaServiceImpl.uploadImage method end");
         CommonResponse commonResponse = new CommonResponse();
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(mediaDTO.getFile().getOriginalFilename()));
 
@@ -42,6 +43,7 @@ public class MediaServiceImpl implements MediaService {
         commonResponse.setStatus(HttpStatus.OK);
         commonResponse.setMessage("Image uploaded successfully. File name: " + savedMedia.getFileName());
         commonResponse.setData(mediaMapper.domainToDto(savedMedia));
+        log.info("MediaServiceImpl.uploadImage method end");
         return commonResponse;
     }
 
@@ -69,9 +71,18 @@ public class MediaServiceImpl implements MediaService {
     public Optional<byte[]> getImageData(String id) {
         Optional<MediaEntity> mediaEntityOptional = mediaRepository.findById(id);
         if (mediaEntityOptional.isEmpty()) {
-            throw new ReferenceNotFoundException("The Media not exists");
+            throw new ReferenceNotFoundException("The Media is not exists");
         }
         return mediaEntityOptional.map(MediaEntity::getData);
+    }
+
+    @Override
+    public List<MediaEntity> getImageLisData() {
+        List<MediaEntity> mediaEntityOptional = mediaRepository.findAll();
+        if (mediaEntityOptional.isEmpty()) {
+            throw new ReferenceNotFoundException("The Media not exists");
+        }
+        return mediaEntityOptional;
     }
 
     @Override

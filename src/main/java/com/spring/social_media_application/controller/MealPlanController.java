@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/meal/plan")
 @Slf4j
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class MealPlanController {
     private final MealPlanService mealPlanService;
 
