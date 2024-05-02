@@ -23,7 +23,6 @@ public class MealPlan {
     private User user;
     private String name;
     private String description;
-    @DBRef
     private List<Recipe> recipes;
     private LocalDateTime createdDate;
     private LocalDateTime lastUpdatedDate;

@@ -107,6 +107,26 @@ public class WorkoutPlanServiceImpl implements WorkoutPlanService {
     }
 
     @Override
+    public CommonResponse updateWorkPlan(WorkoutPlanDTO workoutPlanDTO) {
+        log.info("MealPlanServiceImpl.updateMealPlan method accessed");
+        CommonResponse commonResponse = new CommonResponse();
+        Optional<WorkoutPlan> workoutPlan = workoutPlanRepository.findById(workoutPlanDTO.getPlanId());
+        if(workoutPlan.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.BAD_REQUEST);
+            commonResponse.setMessage("Update workoutPlan details not available!");
+            commonResponse.setData(new ArrayList<>());
+            log.warn("WorkoutPlan details not available. message : {}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        WorkoutPlan workoutPlanUpdatedDetails = workoutPlanRepository.save(workoutPlanMapper.dtoToDomain(workoutPlanDTO, workoutPlan.get()));
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("TimeTable details is update success!");
+        commonResponse.setData(workoutPlanMapper.domainToDto(workoutPlanUpdatedDetails));
+        log.info("MealPlanServiceImpl.updateMealPlan method end");
+        return commonResponse;
+    }
+
+    @Override
     public CommonResponse deleteWorkoutPlans() {
         log.info("WorkoutPlanServiceImpl.deleteWorkoutPlans method accessed");
         CommonResponse commonResponse = new CommonResponse();

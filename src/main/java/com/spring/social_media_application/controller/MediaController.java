@@ -2,6 +2,7 @@ package com.spring.social_media_application.controller;
 
 import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.MediaDTO;
+import com.spring.social_media_application.dto.MediaEntityDTO;
 import com.spring.social_media_application.entity.MediaEntity;
 import com.spring.social_media_application.service.MediaService;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,6 +92,20 @@ public class MediaController {
     public ResponseEntity<List<MediaEntity>> downloadImages() {
         List<MediaEntity> imageData = mediaService.getImageLisData();
         return new ResponseEntity<>(imageData, HttpStatus.OK);
+    }
+
+    /**
+     * Get all medias
+     *
+     * @return success or fail response of all medias
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<MediaEntityDTO>> getAllMedia() {
+        List<MediaEntityDTO> media = mediaService.getAllMedia();
+        if (media.isEmpty()) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
+        return ResponseEntity.ok(media);
     }
 
     /**

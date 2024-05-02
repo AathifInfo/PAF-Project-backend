@@ -2,6 +2,7 @@ package com.spring.social_media_application.service;
 
 import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.MediaDTO;
+import com.spring.social_media_application.dto.MediaEntityDTO;
 import com.spring.social_media_application.entity.MediaEntity;
 
 import java.io.IOException;
@@ -62,4 +63,11 @@ public interface MediaService {
      * @return success or fail response of get images
      */
     List<MediaEntity> getImageLisData();
+
+    /**
+     * Get all medias
+     *
+     * @return success or fail response of all medias
+     */
+    List<MediaEntityDTO> getAllMedia();
 }

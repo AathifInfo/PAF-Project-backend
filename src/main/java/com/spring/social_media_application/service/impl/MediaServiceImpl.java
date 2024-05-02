@@ -2,6 +2,7 @@ package com.spring.social_media_application.service.impl;
 
 import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.MediaDTO;
+import com.spring.social_media_application.dto.MediaEntityDTO;
 import com.spring.social_media_application.entity.MediaEntity;
 import com.spring.social_media_application.entity.WorkoutStatus;
 import com.spring.social_media_application.exception.ReferenceNotFoundException;
@@ -10,6 +11,7 @@ import com.spring.social_media_application.repository.MediaRepository;
 import com.spring.social_media_application.service.MediaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -83,6 +86,23 @@ public class MediaServiceImpl implements MediaService {
             throw new ReferenceNotFoundException("The Media not exists");
         }
         return mediaEntityOptional;
+    }
+
+    @Override
+    public List<MediaEntityDTO> getAllMedia() {
+        List<MediaEntity> mediaEntities = mediaRepository.findAll();
+        return mediaEntities.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    private MediaEntityDTO convertToDto(MediaEntity mediaEntity) {
+        MediaEntityDTO dto = new MediaEntityDTO();
+        dto.setId(mediaEntity.getId());
+        dto.setFileName(mediaEntity.getFileName());
+        dto.setDescription(mediaEntity.getDescription());
+        dto.setContentType(mediaEntity.getContentType());
+        String base64Encoded = Base64.encodeBase64String(mediaEntity.getData());
+        dto.setData("data:" + mediaEntity.getContentType() + ";base64," + base64Encoded);
+        return dto;
     }
 
     @Override

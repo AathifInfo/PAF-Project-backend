@@ -77,4 +77,17 @@ public class WorkoutPlanController {
         CommonResponse commonResponse = workoutPlanService.deleteWorkoutPlans();
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
+
+    /**
+     * Update workout plan
+     *
+     * @param workoutPlanDTO - required data for workout plan update
+     * @return success or fail response of workout plan update
+     */
+    @PutMapping("")
+    public ResponseEntity<CommonResponse> updateWorkPlan(@Valid @RequestBody WorkoutPlanDTO workoutPlanDTO) {
+        CommonResponse commonResponse = workoutPlanService.updateWorkPlan(workoutPlanDTO);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
 }

@@ -43,4 +43,11 @@ public interface MealPlanService {
      */
     CommonResponse saveMealPlan(MealPlanDTO mealPlanDTO);
 
+    /**
+     * Update meal plan
+     *
+     * @param mealPlanDTO - required data for meal plan update
+     * @return success or fail response of meal plan update
+     */
+    CommonResponse updateMealPlan(MealPlanDTO mealPlanDTO);
 }
