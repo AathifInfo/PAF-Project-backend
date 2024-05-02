@@ -2,6 +2,8 @@ package com.spring.social_media_application.controller;
 
 import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.MediaDTO;
+import com.spring.social_media_application.dto.MediaEntityDTO;
+import com.spring.social_media_application.entity.MediaEntity;
 import com.spring.social_media_application.service.MediaService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/media")
 @Slf4j
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class MediaController {
 
     private final MediaService mediaService;
@@ -72,10 +77,35 @@ public class MediaController {
      * @param id - required data for get image
      * @return success or fail response of get image
      */
-    @GetMapping(value = "/download/image/{planId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/download/image/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> downloadImage(@PathVariable String id) {
         Optional<byte[]> imageData = mediaService.getImageData(id);
         return imageData.map(bytes -> ResponseEntity.ok().body(bytes)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Get Images
+     *
+     * @return success or fail response of get images
+     */
+    @GetMapping(value = "/download/images")
+    public ResponseEntity<List<MediaEntity>> downloadImages() {
+        List<MediaEntity> imageData = mediaService.getImageLisData();
+        return new ResponseEntity<>(imageData, HttpStatus.OK);
+    }
+
+    /**
+     * Get all medias
+     *
+     * @return success or fail response of all medias
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<MediaEntityDTO>> getAllMedia() {
+        List<MediaEntityDTO> media = mediaService.getAllMedia();
+        if (media.isEmpty()) {
+            return ResponseEntity.ok(new ArrayList<>());
+        }
+        return ResponseEntity.ok(media);
     }
 
     /**
@@ -84,7 +114,7 @@ public class MediaController {
      * @param id - required data for get video
      * @return success or fail response of get video
      */
-    @GetMapping(value = "/download/video/{planId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/download/video/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<byte[]> downloadVideo(@PathVariable String id) {
         Optional<byte[]> videoData = mediaService.getVideoData(id);
         return videoData.map(bytes -> ResponseEntity.ok().body(bytes)).orElseGet(() -> ResponseEntity.notFound().build());
@@ -96,7 +126,7 @@ public class MediaController {
      * @param id - required data for delete image
      * @return success or fail response of delete image
      */
-    @DeleteMapping("/delete/media/{planId}")
+    @DeleteMapping("/delete/media/{id}")
     public ResponseEntity<CommonResponse> deleteImage(@PathVariable String id) {
         CommonResponse commonResponse = mediaService.deleteMediaById(id);
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);

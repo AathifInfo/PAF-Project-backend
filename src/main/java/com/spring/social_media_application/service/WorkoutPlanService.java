@@ -41,4 +41,11 @@ public interface WorkoutPlanService {
      */
     CommonResponse deleteWorkoutPlanById(String workoutPlanId);
 
+    /**
+     * Update workout plan
+     *
+     * @param workoutPlanDTO - required data for workout plan update
+     * @return success or fail response of workout plan update
+     */
+    CommonResponse updateWorkPlan(WorkoutPlanDTO workoutPlanDTO);
 }

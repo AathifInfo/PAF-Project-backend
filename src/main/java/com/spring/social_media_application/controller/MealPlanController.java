@@ -9,12 +9,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/meal/plan")
 @Slf4j
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class MealPlanController {
     private final MealPlanService mealPlanService;
 
@@ -73,6 +75,18 @@ public class MealPlanController {
     @DeleteMapping("")
     public ResponseEntity<CommonResponse> deleteMealPlans() {
         CommonResponse commonResponse = mealPlanService.deleteMealPlans();
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Update meal plan
+     *
+     * @param mealPlanDTO - required data for meal plan update
+     * @return success or fail response of meal plan update
+     */
+    @PutMapping("")
+    public ResponseEntity<CommonResponse> updateMealPlan(@Valid @RequestBody MealPlanDTO mealPlanDTO) {
+        CommonResponse commonResponse = mealPlanService.updateMealPlan(mealPlanDTO);
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
 }

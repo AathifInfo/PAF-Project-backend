@@ -87,6 +87,26 @@ public class MealPlanServiceImpl implements MealPlanService {
     }
 
     @Override
+    public CommonResponse updateMealPlan(MealPlanDTO mealPlanDTO) {
+        log.info("MealPlanServiceImpl.updateMealPlan method accessed");
+        CommonResponse commonResponse = new CommonResponse();
+        Optional<MealPlan> mealPlan = mealPlanRepository.findById(mealPlanDTO.getMealPlanId());
+        if(mealPlan.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.BAD_REQUEST);
+            commonResponse.setMessage("Update mealPlan details not available!");
+            commonResponse.setData(new ArrayList<>());
+            log.warn("MealPlan details not available. message : {}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        MealPlan mealPlanUpdatedDetails = mealPlanRepository.save(mealPlanMapper.dtoToDomain(mealPlanDTO, mealPlan.get()));
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("TimeTable details is update success!");
+        commonResponse.setData(mealPlanMapper.domainToDto(mealPlanUpdatedDetails));
+        log.info("MealPlanServiceImpl.updateMealPlan method end");
+        return commonResponse;
+    }
+
+    @Override
     public CommonResponse deleteMealPlanById(String mealPlanId) {
         log.info("MealPlanServiceImpl.deleteMealPlanById method accessed");
         CommonResponse commonResponse = new CommonResponse();
