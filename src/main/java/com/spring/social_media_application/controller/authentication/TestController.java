@@ -1,5 +1,8 @@
 package com.spring.social_media_application.controller.authentication;
 
+import com.spring.social_media_application.entity.authentication.User;
+import com.spring.social_media_application.repository.authentication.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
+@RequiredArgsConstructor
 public class TestController {
+	private final UserRepository userRepository;
 	@GetMapping("/all")
-	public String allAccess() {
-		return "Public Content.";
+	public User allAccess() {
+		return userRepository.findAll().stream().findFirst().orElse(new User());
 	}
 	
 	@GetMapping("/student")

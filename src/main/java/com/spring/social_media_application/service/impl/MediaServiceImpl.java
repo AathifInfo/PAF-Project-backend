@@ -34,6 +34,9 @@ public class MediaServiceImpl implements MediaService {
     public CommonResponse uploadImage(MediaDTO mediaDTO) throws IOException {
         log.info("MediaServiceImpl.uploadImage method end");
         CommonResponse commonResponse = new CommonResponse();
+        if (mediaDTO.getFile().getSize() > 32 * 1024 * 1024) {
+            throw new IllegalArgumentException("Video file size exceeds the limit of 32MB.");
+        }
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(mediaDTO.getFile().getOriginalFilename()));
 
         MediaEntity mediaEntity = new MediaEntity();
