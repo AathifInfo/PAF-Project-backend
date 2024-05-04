@@ -180,7 +180,7 @@ public class MediaServiceImpl implements MediaService {
             log.info("Update completed for media with ID: {}", id);
         } else {
             commonResponse.setStatus(HttpStatus.NOT_FOUND);
-            commonResponse.setData(new ArrayList<>());
+            commonResponse.setData(new MediaEntityDTO());
             commonResponse.setMessage("Media not found with ID: " + id);
         }
 
