@@ -153,4 +153,38 @@ public class MediaServiceImpl implements MediaService {
         return commonResponse;
     }
 
+    @Override
+    public CommonResponse updateImage(String id, MediaDTO mediaDTO) throws IOException {
+        log.info("Starting update for media with ID: {}", id);
+        CommonResponse commonResponse = new CommonResponse();
+
+        Optional<MediaEntity> mediaOptional = mediaRepository.findById(id);
+        if (mediaOptional.isPresent()) {
+            MediaEntity mediaEntity = mediaOptional.get();
+
+            if (mediaDTO.getFile().getSize() > 32 * 1024 * 1024) {
+                throw new IllegalArgumentException("File size exceeds the limit of 32MB.");
+            }
+
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(mediaDTO.getFile().getOriginalFilename()));
+
+            mediaEntity.setData(mediaDTO.getFile().getBytes());
+            mediaEntity.setFileName(fileName);
+            mediaEntity.setContentType(mediaDTO.getFile().getContentType());
+            mediaEntity.setDescription(mediaDTO.getDescription());
+            MediaEntity updatedMedia = mediaRepository.save(mediaEntity);
+
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setMessage("Image updated successfully. File name: " + updatedMedia.getFileName());
+            commonResponse.setData(mediaMapper.domainToDto(updatedMedia));
+            log.info("Update completed for media with ID: {}", id);
+        } else {
+            commonResponse.setStatus(HttpStatus.NOT_FOUND);
+            commonResponse.setData(new ArrayList<>());
+            commonResponse.setMessage("Media not found with ID: " + id);
+        }
+
+        return commonResponse;
+    }
+
 }

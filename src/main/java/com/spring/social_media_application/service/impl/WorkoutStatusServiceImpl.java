@@ -1,16 +1,22 @@
 package com.spring.social_media_application.service.impl;
 
 import com.spring.social_media_application.common.CommonResponse;
+import com.spring.social_media_application.dto.WorkoutStatusMediaDTO;
 import com.spring.social_media_application.dto.WorkoutStatusRequestDTO;
 import com.spring.social_media_application.entity.WorkoutStatus;
+import com.spring.social_media_application.entity.WorkoutStatusMedia;
 import com.spring.social_media_application.mapper.WorkoutStatusMapper;
+import com.spring.social_media_application.mapper.WorkoutStatusMediaMapper;
+import com.spring.social_media_application.repository.WorkoutStatusMediaRepository;
 import com.spring.social_media_application.repository.WorkoutStatusRepository;
 import com.spring.social_media_application.service.WorkoutStatusService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +26,9 @@ import java.util.Optional;
 @Slf4j
 public class WorkoutStatusServiceImpl implements WorkoutStatusService {
     private final WorkoutStatusRepository workoutStatusRepository;
+    private final WorkoutStatusMediaRepository workoutStatusMediaRepository;
     private final WorkoutStatusMapper workoutStatusMapper;
+    private final WorkoutStatusMediaMapper workoutStatusMediaMapper;
     @Override
     public CommonResponse getAllWorkoutStatusDetails() {
         log.info("WorkoutStatusServiceImpl.getAllWorkoutStatusDetails method accessed");
@@ -141,6 +149,74 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
         commonResponse.setMessage("WorkoutStatus all details is delete success!");
         commonResponse.setData(new ArrayList<>());
         log.info("WorkoutStatusServiceImpl.deleteALlWorkoutStatusDetails method end");
+        return commonResponse;
+    }
+
+    @Override
+    public CommonResponse saveWorkoutStatusWithPost(String id, String userId, Double distance, Integer pushUp, Double weightLifted, String description, MultipartFile file) throws IOException {
+        log.info("WorkoutStatusServiceImpl.saveWorkoutStatusWithPost method accessed");
+        CommonResponse commonResponse = new CommonResponse();
+        WorkoutStatusRequestDTO workoutStatusRequestDTO = new WorkoutStatusRequestDTO();
+        workoutStatusRequestDTO.setId(id);
+        workoutStatusRequestDTO.setUserId(userId);
+        workoutStatusRequestDTO.setDistance(distance);
+        workoutStatusRequestDTO.setPushUp(pushUp);
+        workoutStatusRequestDTO.setWeightLifted(weightLifted);
+        workoutStatusRequestDTO.setDescription(description);
+        Optional<WorkoutStatusMedia> workoutStatusMedia = workoutStatusMediaRepository.findById(workoutStatusRequestDTO.getId());
+        if(workoutStatusMedia.isPresent()){
+            commonResponse.setStatus(HttpStatus.BAD_REQUEST);
+            commonResponse.setMessage("WorkoutStatus details already exist!");
+            commonResponse.setData(workoutStatusMedia);
+            log.warn("Workout Status details not exist. message : {}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        WorkoutStatusMedia workoutStatusMediaSavedDetails = workoutStatusMediaRepository.save(workoutStatusMediaMapper.dtoToDomain(workoutStatusRequestDTO, file, new WorkoutStatusMedia()));
+        commonResponse.setStatus(HttpStatus.CREATED);
+        commonResponse.setMessage("WorkoutStatus details saved success!");
+        commonResponse.setData(workoutStatusMediaSavedDetails);
+        log.info("WorkoutStatusServiceImpl.saveWorkoutStatusWithPost method end");
+        return commonResponse;
+    }
+
+    @Override
+    public CommonResponse getAllWorkoutStatusMediaDetails() {
+        log.info("WorkoutStatusServiceImpl.getAllWorkoutStatusMediaDetails method accessed");
+        List<WorkoutStatusMediaDTO> statusMediaDTOList = new ArrayList<>();
+        CommonResponse commonResponse = new CommonResponse();
+        List<WorkoutStatusMedia> workoutStatusMediaList = workoutStatusMediaRepository.findAll();
+        workoutStatusMediaList.forEach(workoutStatusMedia ->  statusMediaDTOList.add(workoutStatusMediaMapper.domainToDto(workoutStatusMedia)));
+        if (workoutStatusMediaList.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.OK);
+            commonResponse.setData(new ArrayList<WorkoutStatusMedia>());
+            commonResponse.setMessage("WorkoutStatusMedia details list not available!");
+            log.warn("WorkoutStatusMedia details not available. message :{}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("WorkoutStatusMedia details are fetching success!");
+        commonResponse.setData(statusMediaDTOList);
+        log.info("WorkoutStatusServiceImpl.getAllWorkoutStatusMediaDetails method end");
+        return commonResponse;
+    }
+
+    @Override
+    public CommonResponse deleteWorkoutStatusMediaDetailsById(String workoutStatusMediaId) {
+        log.info("WorkoutStatusServiceImpl.deleteWorkoutStatusMediaDetailsById method accessed");
+        CommonResponse commonResponse = new CommonResponse();
+        Optional<WorkoutStatusMedia> workoutStatus = workoutStatusMediaRepository.findById(workoutStatusMediaId);
+        if(workoutStatus.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.BAD_REQUEST);
+            commonResponse.setMessage("Delete WorkoutStatusMedia details not available!");
+            commonResponse.setData(new ArrayList<>());
+            log.warn("WorkoutStatusMedia  details not available. message : {}", commonResponse.getMessage());
+            return commonResponse;
+        }
+        workoutStatusMediaRepository.deleteById(workoutStatusMediaId);
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("WorkoutStatusMedia details is delete success!");
+        commonResponse.setData(new ArrayList<>());
+        log.info("WorkoutStatusServiceImpl.deleteWorkoutStatusMediaDetailsById method end");
         return commonResponse;
     }
 }

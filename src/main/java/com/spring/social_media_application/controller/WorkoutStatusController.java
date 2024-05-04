@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/workout/status")
@@ -29,6 +32,7 @@ public class WorkoutStatusController {
         CommonResponse commonResponse = workoutStatusService.getAllWorkoutStatusDetails();
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
+
 
     /**
      * Get workout status by planId
@@ -86,6 +90,54 @@ public class WorkoutStatusController {
     @DeleteMapping("")
     public ResponseEntity<CommonResponse> deleteALlWorkoutStatusDetails() {
         CommonResponse commonResponse = workoutStatusService.deleteALlWorkoutStatusDetails();
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Create workout status with post
+     *
+     * @param id - required data for workout status post save
+     * @param userId - required data for workout status post save
+     * @param distance - required data for workout status post save
+     * @param pushUp - required data for workout status post save
+     * @param weightLifted - required data for workout status post save
+     * @param description - required data for workout status post save
+     * @param file - required data for workout status post save
+     * @return success or fail response of workout status save
+     */
+    @PostMapping("/post")
+    public ResponseEntity<CommonResponse> saveWorkoutStatusWithPost(@Valid
+                                                                    @RequestParam("id") String id,
+                                                                    @RequestParam("userId") String userId,
+                                                                    @RequestParam("distance") Double distance,
+                                                                    @RequestParam("pushUp") Integer pushUp,
+                                                                    @RequestParam("weightLifted") Double weightLifted,
+                                                                    @RequestParam("description") String description,
+                                                                    @RequestParam("file") MultipartFile file) throws IOException {
+        CommonResponse commonResponse = workoutStatusService.saveWorkoutStatusWithPost(id, userId, distance, pushUp, weightLifted, description, file);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Get all workout status media
+     *
+     * @return success or fail response of workout status media fetching
+     */
+    @GetMapping("/post")
+    public ResponseEntity<CommonResponse> getAllWorkoutStatusMediaDetails() {
+        CommonResponse commonResponse = workoutStatusService.getAllWorkoutStatusMediaDetails();
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    /**
+     * Delete workout status media by id
+     *
+     * @param workoutStatusMediaId - required data for delete workout status media by id
+     * @return success or fail response of delete workout status media by id
+     */
+    @DeleteMapping("/post/{workoutStatusMediaId}")
+    public ResponseEntity<CommonResponse> deleteWorkoutStatusMediaDetailsById(@PathVariable("workoutStatusMediaId") @NotNull String workoutStatusMediaId) {
+        CommonResponse commonResponse = workoutStatusService.deleteWorkoutStatusMediaDetailsById(workoutStatusMediaId);
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
 }

@@ -142,4 +142,13 @@ public class MediaController {
         CommonResponse commonResponse = mediaService.deleteAllMedia();
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
+
+    @PutMapping("/update/image/{id}")
+    public ResponseEntity<CommonResponse> updateImage(@PathVariable String id, @RequestParam("file") MultipartFile file, @RequestParam("description") String description) throws IOException {
+        MediaDTO mediaDTO = new MediaDTO();
+        mediaDTO.setFile(file);
+        mediaDTO.setDescription(description);
+        CommonResponse commonResponse = mediaService.updateImage(id, mediaDTO);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
 }

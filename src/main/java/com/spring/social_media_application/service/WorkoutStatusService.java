@@ -2,6 +2,9 @@ package com.spring.social_media_application.service;
 
 import com.spring.social_media_application.common.CommonResponse;
 import com.spring.social_media_application.dto.WorkoutStatusRequestDTO;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface WorkoutStatusService {
     /**
@@ -49,4 +52,33 @@ public interface WorkoutStatusService {
      * @return success or fail response of delete all workout status
      */
     CommonResponse deleteALlWorkoutStatusDetails();
+
+    /**
+     * Create workout status with post
+     *
+     * @param id - required data for workout status post save
+     * @param userId - required data for workout status post save
+     * @param distance - required data for workout status post save
+     * @param pushUp - required data for workout status post save
+     * @param weightLifted - required data for workout status post save
+     * @param description - required data for workout status post save
+     * @param file - required data for workout status post save
+     * @return success or fail response of workout status save
+     */
+    CommonResponse saveWorkoutStatusWithPost(String id, String userId, Double distance, Integer pushUp, Double weightLifted, String description, MultipartFile file) throws IOException;
+
+    /**
+     * Get all workout status media
+     *
+     * @return success or fail response of workout status media fetching
+     */
+    CommonResponse getAllWorkoutStatusMediaDetails();
+
+    /**
+     * Delete workout status media by id
+     *
+     * @param workoutStatusMediaId - required data for delete workout status media by id
+     * @return success or fail response of delete workout status media by id
+     */
+    CommonResponse deleteWorkoutStatusMediaDetailsById(String workoutStatusMediaId);
 }

@@ -70,4 +70,6 @@ public interface MediaService {
      * @return success or fail response of all medias
      */
     List<MediaEntityDTO> getAllMedia();
+
+    CommonResponse updateImage(String id, MediaDTO mediaDTO) throws IOException;
 }
