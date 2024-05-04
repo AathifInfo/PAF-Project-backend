@@ -70,4 +70,13 @@ public class WorkoutStatusMediaMapper {
         dto.setDescription(domain.getDescription());
         return dto;
     }
+
+    public MediaEntity updateMediaEntity(MediaEntity mediaEntity, MultipartFile file, String description) throws IOException {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        mediaEntity.setData(file.getBytes());
+        mediaEntity.setFileName(fileName);
+        mediaEntity.setDescription(description);
+        mediaEntity.setContentType(file.getContentType());
+        return mediaEntity;
+    }
 }

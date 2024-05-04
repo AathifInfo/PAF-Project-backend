@@ -119,6 +119,30 @@ public class WorkoutStatusController {
     }
 
     /**
+     * Update workout status with post
+     *
+     * @param id - required data for workout status post update
+     * @param userId - required data for workout status post update
+     * @param distance - required data for workout status post update
+     * @param pushUp - required data for workout status post update
+     * @param weightLifted - required data for workout status post update
+     * @param description - required data for workout status post update
+     * @param file - required data for workout status post update
+     * @return success or fail response of workout status update
+     */
+    @PutMapping("/post/{id}")
+    public ResponseEntity<CommonResponse> updateWorkoutStatusMedia(@PathVariable String id,
+                                                                   @RequestParam("userId") String userId,
+                                                                   @RequestParam("distance") Double distance,
+                                                                   @RequestParam("pushUp") Integer pushUp,
+                                                                   @RequestParam("weightLifted") Double weightLifted,
+                                                                   @RequestParam("description") String description,
+                                                                   @RequestParam("file") MultipartFile file) throws IOException {
+        CommonResponse commonResponse = workoutStatusService.updateWorkoutStatusMedia(id, userId, distance, pushUp, weightLifted, description, file);
+        return new ResponseEntity<>(commonResponse, commonResponse.getStatus());
+    }
+
+    /**
      * Get all workout status media
      *
      * @return success or fail response of workout status media fetching

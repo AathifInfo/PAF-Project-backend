@@ -81,4 +81,18 @@ public interface WorkoutStatusService {
      * @return success or fail response of delete workout status media by id
      */
     CommonResponse deleteWorkoutStatusMediaDetailsById(String workoutStatusMediaId);
+
+    /**
+     * Update workout status with post
+     *
+     * @param id - required data for workout status post update
+     * @param userId - required data for workout status post update
+     * @param distance - required data for workout status post update
+     * @param pushUp - required data for workout status post update
+     * @param weightLifted - required data for workout status post update
+     * @param description - required data for workout status post update
+     * @param file - required data for workout status post update
+     * @return success or fail response of workout status update
+     */
+    CommonResponse updateWorkoutStatusMedia(String id, String userId, Double distance, Integer pushUp, Double weightLifted, String description, MultipartFile file) throws IOException;
 }

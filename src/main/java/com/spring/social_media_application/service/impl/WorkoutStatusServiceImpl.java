@@ -219,4 +219,39 @@ public class WorkoutStatusServiceImpl implements WorkoutStatusService {
         log.info("WorkoutStatusServiceImpl.deleteWorkoutStatusMediaDetailsById method end");
         return commonResponse;
     }
+
+    @Override
+    public CommonResponse updateWorkoutStatusMedia(String id, String userId, Double distance, Integer pushUp, Double weightLifted, String description, MultipartFile file) throws IOException {
+        log.info("Entering updateWorkoutStatusMedia method");
+
+        CommonResponse commonResponse = new CommonResponse();
+        Optional<WorkoutStatusMedia> existingRecord = workoutStatusMediaRepository.findById(id);
+
+        if (existingRecord.isEmpty()) {
+            commonResponse.setStatus(HttpStatus.NOT_FOUND);
+            commonResponse.setMessage("WorkoutStatusMedia not found!");
+            return commonResponse;
+        }
+
+        WorkoutStatusMedia workoutStatus = existingRecord.get();
+        // Assuming there is logic to set user based on userId
+        workoutStatus.setDistance(distance);
+        workoutStatus.setPushUp(pushUp);
+        workoutStatus.setWeightLifted(weightLifted);
+        workoutStatus.setDescription(description);
+        // Assuming there is a method in a mapper/utility class to handle file processing
+        if (file != null && !file.isEmpty()) {
+            workoutStatus.setMediaEntity(workoutStatusMediaMapper.updateMediaEntity(workoutStatus.getMediaEntity(), file, description));
+        }
+
+        WorkoutStatusMedia updatedWorkoutStatus = workoutStatusMediaRepository.save(workoutStatus);
+        commonResponse.setStatus(HttpStatus.OK);
+        commonResponse.setMessage("WorkoutStatus updated successfully!");
+        commonResponse.setData(updatedWorkoutStatus);
+
+        log.info("Exiting updateWorkoutStatusMedia method");
+        return commonResponse;
+    }
+
+
 }
